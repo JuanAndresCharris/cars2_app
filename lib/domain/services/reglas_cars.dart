@@ -8,8 +8,9 @@ class ReglasCars {
     required int iq,
     required bool comunicacionFluida,
   }) {
-    if (edadAnios >= 6 && iq >= 80 && comunicacionFluida)
+    if (edadAnios >= 6 && iq >= 80 && comunicacionFluida) {
       return FormularioCars.hf;
+    }
     return FormularioCars.st;
   }
 
