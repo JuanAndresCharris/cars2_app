@@ -26,4 +26,19 @@ void main() {
 
     expect(find.textContaining('CARS2-'), findsNothing);
   });
+
+  testWidgets('al crear la sesión muestra su código', (tester) async {
+    await tester.pumpWidget(
+      const ProviderScope(child: MaterialApp(home: DatosNinoScreen())),
+    );
+
+    await tester.enterText(find.byKey(const Key('campo_edad')), '8');
+    await tester.enterText(find.byKey(const Key('campo_iq')), '95');
+    await tester.tap(find.text('Fluida'));
+    await tester.pump();
+    await tester.tap(find.text('Crear sesión'));
+    await tester.pumpAndSettle();
+
+    expect(find.textContaining('Sesión creada: S-'), findsOneWidget);
+  });
 }
