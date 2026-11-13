@@ -1,5 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../core/providers.dart';
 import '../../domain/entities/cars_tipos.dart';
+import '../../domain/entities/sesion.dart';
 import '../../domain/services/reglas_cars.dart';
 
 class DatosNinoState {
@@ -56,6 +58,19 @@ class DatosNinoViewModel extends Notifier<DatosNinoState> {
       iq: state.iq!,
       comunicacionFluida: state.comunicacionFluida!,
     );
+  }
+
+  Future<Sesion?> crearSesion() async {
+    if (!state.esValido) {
+      return null;
+    }
+    final sesion = await ref.read(crearSesionUseCaseProvider)(
+      edadAnios: state.edadAnios!,
+      iq: state.iq!,
+      comunicacionFluida: state.comunicacionFluida!,
+    );
+    ref.read(sesionActualProvider.notifier).establecer(sesion);
+    return sesion;
   }
 }
 

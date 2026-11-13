@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../domain/entities/cars_tipos.dart';
 import 'datos_nino_viewmodel.dart';
+import '../../core/providers.dart';
 
 class DatosNinoScreen extends ConsumerWidget {
   const DatosNinoScreen({super.key});
@@ -11,6 +12,7 @@ class DatosNinoScreen extends ConsumerWidget {
     final estado = ref.watch(datosNinoProvider);
     final vm = ref.read(datosNinoProvider.notifier);
     final recomendado = vm.formularioRecomendado;
+    final sesion = ref.watch(sesionActualProvider);
 
     return Scaffold(
       appBar: AppBar(title: const Text('Datos del niño')),
@@ -56,7 +58,7 @@ class DatosNinoScreen extends ConsumerWidget {
                 vm.cambiarComunicacionFluida(s.isEmpty ? null : s.first),
           ),
           const SizedBox(height: 24),
-          if (recomendado != null)
+          if (recomendado != null) ...[
             Card(
               child: Padding(
                 padding: const EdgeInsets.all(16),
@@ -66,6 +68,21 @@ class DatosNinoScreen extends ConsumerWidget {
                 ),
               ),
             ),
+            const SizedBox(height: 16),
+            FilledButton(
+              onPressed: () => vm.crearSesion(),
+              child: const Text('Crear sesión'),
+            ),
+          ],
+          if (sesion != null) ...[
+            const SizedBox(height: 16),
+            Card(
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: Text('Sesión creada: ${sesion.id}'),
+              ),
+            ),
+          ],
         ],
       ),
     );
